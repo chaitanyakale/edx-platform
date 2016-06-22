@@ -1,12 +1,14 @@
 """
 Serializer for user API
 """
+from opaque_keys.edx.keys import CourseKey
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from courseware.access import has_access
 from student.models import CourseEnrollment, User
 from certificates.api import certificate_downloadable_status
+from util.course import get_lms_link_for_about_page
 
 
 class CourseOverviewField(serializers.RelatedField):
@@ -17,6 +19,7 @@ class CourseOverviewField(serializers.RelatedField):
     def to_representation(self, course_overview):
         course_id = unicode(course_overview.id)
         request = self.context.get('request')
+        course_about_url = get_lms_link_for_about_page(request, CourseKey.from_string(course_id))
         return {
             # identifiers
             'id': course_id,
@@ -50,11 +53,7 @@ class CourseOverviewField(serializers.RelatedField):
                 }
             },
             'course_image': course_overview.course_image_url,
-            'course_about': reverse(
-                'about_course',
-                kwargs={'course_id': course_id},
-                request=request,
-            ),
+            'course_about': None if not course_about_url else "http:{}".format(course_about_url),
             'course_updates': reverse(
                 'course-updates-list',
                 kwargs={'course_id': course_id},
