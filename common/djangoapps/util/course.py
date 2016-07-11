@@ -34,14 +34,8 @@ def get_lms_link_for_about_page(request, course_key):
 
         # Strip off https:// (or http://) to be consistent with the formatting of LMS_BASE.
         about_base = re.sub(r"^https?://", "", about_base)
-
-    elif hasattr(settings, "LMS_BASE"):
-        if settings.LMS_BASE is not None:
-            about_base = settings.LMS_BASE
-        else:
-            return None
     else:
-        about_base = request.META['HTTP_HOST']
+        about_base = settings.ENV_TOKENS.get('LMS_BASE')
 
     return u"//{about_base_url}/courses/{course_key}/about".format(
         about_base_url=about_base,

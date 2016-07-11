@@ -53,7 +53,7 @@ class CourseOverviewField(serializers.RelatedField):
                 }
             },
             'course_image': course_overview.course_image_url,
-            'course_about': None if not course_about_url else "http:{}".format(course_about_url),
+            'course_about': None if not course_about_url else "https:{}".format(course_about_url),
             'course_updates': reverse(
                 'course-updates-list',
                 kwargs={'course_id': course_id},
