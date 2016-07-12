@@ -19,7 +19,6 @@ class CourseOverviewField(serializers.RelatedField):
     def to_representation(self, course_overview):
         course_id = unicode(course_overview.id)
         request = self.context.get('request')
-        course_about_url = get_lms_link_for_about_page(request, CourseKey.from_string(course_id))
         return {
             # identifiers
             'id': course_id,
@@ -53,7 +52,7 @@ class CourseOverviewField(serializers.RelatedField):
                 }
             },
             'course_image': course_overview.course_image_url,
-            'course_about': None if not course_about_url else "https:{}".format(course_about_url),
+            'course_about': get_lms_link_for_about_page(CourseKey.from_string(course_id)),
             'course_updates': reverse(
                 'course-updates-list',
                 kwargs={'course_id': course_id},

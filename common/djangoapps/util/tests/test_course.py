@@ -56,4 +56,4 @@ class LmsLinksTestCase(TestCase):
         course_key = SlashSeparatedCourseKey('mitX', '101', 'test')
         request = RequestFactory().get("/test_path")
         request.META['HTTP_HOST'] = "localhost:8000"  # pylint: disable=no-member
-        return get_lms_link_for_about_page(request, course_key)
+        return get_lms_link_for_about_page(course_key)
