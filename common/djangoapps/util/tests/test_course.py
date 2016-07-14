@@ -26,30 +26,19 @@ class LmsLinksTestCase(TestCase):
     def test_about_page_marketing_site_remove_http(self):
         """ Get URL for about page, marketing root present, remove http://. """
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
-            self.assertEquals(self.get_about_page_link(), "//www.dummy/courses/mitX/101/test/about")
+            self.assertEquals(self.get_about_page_link(), "https://www.dummy/courses/mitX/101/test/about")
 
     @override_settings(MKTG_URLS={'ROOT': 'https://www.dummy'})
     def test_about_page_marketing_site_remove_https(self):
         """ Get URL for about page, marketing root present, remove https://. """
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
-            self.assertEquals(self.get_about_page_link(), "//www.dummy/courses/mitX/101/test/about")
+            self.assertEquals(self.get_about_page_link(), "https://www.dummy/courses/mitX/101/test/about")
 
     @override_settings(MKTG_URLS={'ROOT': 'www.dummyhttps://x'})
     def test_about_page_marketing_site_https__edge(self):
         """ Get URL for about page, only remove https:// at the beginning of the string. """
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
-            self.assertEquals(self.get_about_page_link(), "//www.dummyhttps://x/courses/mitX/101/test/about")
-
-    @override_settings(MKTG_URLS={})
-    def test_about_page_marketing_urls_not_set(self):
-        """ Error case. ENABLE_MKTG_SITE is True, but there is either no MKTG_URLS, or no MKTG_URLS Root property. """
-        with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
-            self.assertEquals(self.get_about_page_link(), None)
-
-    @override_settings(LMS_BASE=None)
-    def test_about_page_no_lms_base(self):
-        """ No LMS_BASE, nor is ENABLE_MKTG_SITE True """
-        self.assertEquals(self.get_about_page_link(), None)
+            self.assertEquals(self.get_about_page_link(), "https://www.dummyhttps://x/courses/mitX/101/test/about")
 
     def get_about_page_link(self):
         """ create mock course and return the about page link """

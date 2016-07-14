@@ -6,6 +6,7 @@ import django
 from django.conf import settings
 
 # Force settings to run so that the python path is modified
+
 settings.INSTALLED_APPS  # pylint: disable=pointless-statement
 
 from openedx.core.lib.django_startup import autostartup
@@ -20,6 +21,7 @@ from monkey_patch import (
 import xmodule.x_module
 import lms_xblock.runtime
 
+from startup_configurations.validate_config import validate_marketing_site_config
 from openedx.core.djangoapps.theming.core import enable_theming
 from openedx.core.djangoapps.theming.helpers import is_comprehensive_theming_enabled
 
@@ -84,6 +86,9 @@ def run():
     # https://openedx.atlassian.net/wiki/display/PLAT/Convert+from+Storage-centric+runtimes+to+Application-centric+runtimes
     xmodule.x_module.descriptor_global_handler_url = lms_xblock.runtime.handler_url
     xmodule.x_module.descriptor_global_local_resource_url = lms_xblock.runtime.local_resource_url
+
+    if settings.FEATURES.get('ENABLE_MKTG_SITE', False):
+        validate_marketing_site_config()
 
 
 def add_mimetypes():
