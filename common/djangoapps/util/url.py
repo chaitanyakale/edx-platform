@@ -3,7 +3,6 @@ Utility functions related to urls.
 """
 
 import sys
-from urlparse import urlparse
 from django.conf import settings
 from django.core.urlresolvers import set_urlconf
 from importlib import import_module
@@ -28,12 +27,3 @@ def strip_port_from_host(host):
     Strips port number from host
     """
     return host.split(':')[0]
-
-
-def strip_scheme(url):
-    """
-    Strips off scheme from url
-    """
-    parsed = urlparse(url)
-    url_scheme = "%s://" % parsed.scheme
-    return parsed.geturl().replace(url_scheme, '', 1)

@@ -1,4 +1,6 @@
-""" Tests for course utils. """
+"""
+Tests for course utils.
+"""
 
 from django.test import TestCase, override_settings, RequestFactory
 import mock
@@ -12,36 +14,36 @@ class LmsLinksTestCase(TestCase):
     def test_about_page(self):
         """ Get URL for about page, no marketing site """
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': False}):
-            self.assertEquals(self.get_about_page_link(), "//localhost:8000/courses/mitX/101/test/about")
+            self.assertEquals(self.get_about_page_link(), "https://localhost:8000/courses/mitX/101/test/about")
 
     @override_settings(MKTG_URLS={'ROOT': 'dummy-root'})
     def test_about_page_marketing_site(self):
         """ Get URL for about page, marketing root present. """
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
-            self.assertEquals(self.get_about_page_link(), "//dummy-root/courses/mitX/101/test/about")
+            self.assertEquals(self.get_about_page_link(), "https://dummy-root/courses/mitX/101/test/about")
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': False}):
-            self.assertEquals(self.get_about_page_link(), "//localhost:8000/courses/mitX/101/test/about")
+            self.assertEquals(self.get_about_page_link(), "https://localhost:8000/courses/mitX/101/test/about")
 
     @override_settings(MKTG_URLS={'ROOT': 'http://www.dummy'})
     def test_about_page_marketing_site_remove_http(self):
-        """ Get URL for about page, marketing root present, remove http://. """
+        """ Get URL for about page, marketing root present."""
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
             self.assertEquals(self.get_about_page_link(), "https://www.dummy/courses/mitX/101/test/about")
 
     @override_settings(MKTG_URLS={'ROOT': 'https://www.dummy'})
     def test_about_page_marketing_site_remove_https(self):
-        """ Get URL for about page, marketing root present, remove https://. """
+        """ Get URL for about page, marketing root present."""
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
             self.assertEquals(self.get_about_page_link(), "https://www.dummy/courses/mitX/101/test/about")
 
     @override_settings(MKTG_URLS={'ROOT': 'www.dummyhttps://x'})
     def test_about_page_marketing_site_https__edge(self):
-        """ Get URL for about page, only remove https:// at the beginning of the string. """
+        """ Get URL for about page """
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True}):
             self.assertEquals(self.get_about_page_link(), "https://www.dummyhttps://x/courses/mitX/101/test/about")
 
     def get_about_page_link(self):
-        """ create mock course and return the about page link """
+        """ create mock course and return the about page link."""
         course_key = SlashSeparatedCourseKey('mitX', '101', 'test')
         request = RequestFactory().get("/test_path")
         request.META['HTTP_HOST'] = "localhost:8000"  # pylint: disable=no-member

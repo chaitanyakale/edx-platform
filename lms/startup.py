@@ -87,7 +87,7 @@ def run():
     xmodule.x_module.descriptor_global_handler_url = lms_xblock.runtime.handler_url
     xmodule.x_module.descriptor_global_local_resource_url = lms_xblock.runtime.local_resource_url
 
-    if settings.FEATURES.get('ENABLE_MKTG_SITE', False):
+    if settings.FEATURES.get('ENABLE_MKTG_SITE'):
         validate_marketing_site_config()
 
 
