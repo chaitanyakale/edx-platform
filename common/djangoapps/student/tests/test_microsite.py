@@ -68,7 +68,7 @@ class TestMicrosite(TestCase):
             "title": "foo"
         }.items())
 
-    @mock.patch("microsite_configuration.microsite.get_value", fake_site_name)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fake_site_name)
     def test_user_signup_source(self):
         """
         test to create a user form the microsite and see that it record has been
@@ -87,7 +87,7 @@ class TestMicrosite(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(UserSignupSource.objects.filter(site='openedx.localhost')), 0)
 
-    @mock.patch("microsite_configuration.microsite.get_value", fake_microsite_get_value)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fake_microsite_get_value)
     def test_user_signup_missing_enhanced_profile(self):
         """
         test to create a user form the microsite but don't provide any of the microsite specific
@@ -96,7 +96,7 @@ class TestMicrosite(TestCase):
         response = self.client.post(self.url, self.params)
         self.assertEqual(response.status_code, 400)
 
-    @mock.patch("microsite_configuration.microsite.get_value", fake_microsite_get_value)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fake_microsite_get_value)
     def test_user_signup_including_enhanced_profile(self):
         """
         test to create a user form the microsite but don't provide any of the microsite specific

@@ -26,7 +26,7 @@ from student.tests.test_email import mock_render_to_string
 from util.testing import EventTestMixin
 
 from .test_microsite import fake_microsite_get_value
-from openedx.core.djangoapps.theming import helpers as theming_helpers
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
 
 @unittest.skipUnless(
@@ -125,7 +125,7 @@ class ResetPasswordTests(EventTestMixin, CacheIsolationTestCase):
         (subject, msg, from_addr, to_addrs) = send_email.call_args[0]
         self.assertIn("Password reset", subject)
         self.assertIn("You're receiving this e-mail because you requested a password reset", msg)
-        self.assertEquals(from_addr, theming_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL))
+        self.assertEquals(from_addr, configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL))
         self.assertEquals(len(to_addrs), 1)
         self.assertIn(self.user.email, to_addrs)
 
@@ -195,7 +195,7 @@ class ResetPasswordTests(EventTestMixin, CacheIsolationTestCase):
             )
 
     @unittest.skipUnless(settings.ROOT_URLCONF == 'lms.urls', "Test only valid in LMS")
-    @patch("microsite_configuration.microsite.get_value", fake_microsite_get_value)
+    @patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fake_microsite_get_value)
     @patch('django.core.mail.send_mail')
     def test_reset_password_email_microsite(self, send_email):
         """
@@ -254,7 +254,7 @@ class ResetPasswordTests(EventTestMixin, CacheIsolationTestCase):
         self.assertTrue(self.user.is_active)
 
     @patch('student.views.password_reset_confirm')
-    @patch("microsite_configuration.microsite.get_value", fake_microsite_get_value)
+    @patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fake_microsite_get_value)
     def test_reset_password_good_token_microsite(self, reset_confirm):
         """Tests password reset confirmation page for micro site"""
         url = reverse(

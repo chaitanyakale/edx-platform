@@ -124,8 +124,8 @@ class TestOrderHistoryOnMicrositeDashboard(ModuleStoreTestCase):
         cart.purchase(first='FirstNameTesting123', street1='StreetTesting123')
         self.orderid_courseless_donation = cart.id
 
-    @mock.patch("microsite_configuration.microsite.get_value", fakex_microsite)
-    @mock.patch("microsite_configuration.microsite.get_all_orgs", fake_all_orgs)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fakex_microsite)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_all_orgs", fake_all_orgs)
     def test_when_in_microsite_shows_orders_with_microsite_courses_only(self):
         self.client.login(username=self.user.username, password="password")
         response = self.client.get(reverse("dashboard"))
@@ -143,8 +143,8 @@ class TestOrderHistoryOnMicrositeDashboard(ModuleStoreTestCase):
         self.assertNotIn(receipt_url_cert_non_microsite, content)
         self.assertNotIn(receipt_url_donation, content)
 
-    @mock.patch("microsite_configuration.microsite.get_value", non_microsite)
-    @mock.patch("microsite_configuration.microsite.get_all_orgs", fake_all_orgs)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_value", non_microsite)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_all_orgs", fake_all_orgs)
     def test_when_not_in_microsite_shows_orders_with_non_microsite_courses_only(self):
         self.client.login(username=self.user.username, password="password")
         response = self.client.get(reverse("dashboard"))

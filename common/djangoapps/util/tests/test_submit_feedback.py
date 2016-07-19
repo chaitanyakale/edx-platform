@@ -193,7 +193,7 @@ class SubmitFeedbackTest(TestCase):
         self.assertEqual(zendesk_mock_instance.mock_calls, expected_zendesk_calls)
         self._assert_datadog_called(datadog_mock, with_tags=True)
 
-    @mock.patch("microsite_configuration.microsite.get_value", fake_microsite_get_value)
+    @mock.patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fake_microsite_get_value)
     def test_valid_request_anon_user_microsite(self, zendesk_mock_class, datadog_mock):
         """
         Test a valid request from an anonymous user to a mocked out microsite

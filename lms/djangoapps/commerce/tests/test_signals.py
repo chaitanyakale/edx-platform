@@ -198,8 +198,8 @@ class TestRefundSignal(TestCase):
             self.assertTrue(mock_send_notification.called)
             self.assertTrue(mock_log_warning.called)
 
-    @mock.patch('commerce.signals.microsite.is_request_in_microsite', return_value=True)
-    def test_notification_microsite(self, mock_is_request_in_microsite):  # pylint: disable=unused-argument
+    @mock.patch('openedx.core.djangoapps.theming.helpers.is_request_in_themed_site', return_value=True)
+    def test_notification_microsite(self, mock_is_request_in_themed_site):  # pylint: disable=unused-argument
         """
         Ensure the notification function raises an Exception if used in the
         context of microsites.

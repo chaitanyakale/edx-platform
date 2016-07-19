@@ -120,7 +120,10 @@ class CoursesTest(ModuleStoreTestCase):
             all(course.org == primary_course.org for course in filtered_courses)
         )
 
-        with mock.patch('microsite_configuration.microsite.get_value', autospec=True) as mock_get_value:
+        with mock.patch(
+            'openedx.core.djangoapps.site_configuration.helpers.get_value',
+            autospec=True,
+        ) as mock_get_value:
             mock_get_value.side_effect = _fake_get_value
 
             # Request filtering for an org distinct from the designated microsite org.

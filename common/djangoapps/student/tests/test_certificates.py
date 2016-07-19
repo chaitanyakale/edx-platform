@@ -163,7 +163,7 @@ class CertificateDisplayTest(CertificateDisplayTestBase):
         # now we should see it
         self._check_linkedin_visibility(True)
 
-    @mock.patch("microsite_configuration.microsite.is_request_in_microsite", _fake_is_request_in_microsite)
+    @mock.patch("openedx.core.djangoapps.theming.helpers.is_request_in_themed_site", _fake_is_request_in_microsite)
     def test_post_to_linkedin_microsite(self):
         """
         Verifies behavior for microsites which disables the post to LinkedIn

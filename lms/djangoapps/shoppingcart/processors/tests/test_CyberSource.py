@@ -74,7 +74,7 @@ class CyberSourceTests(TestCase):
         self.assertEqual(get_processor_config()['MERCHANT_ID'], 'edx_test')
         self.assertEqual(get_processor_config()['SHARED_SECRET'], 'secret')
 
-    @patch("microsite_configuration.microsite.get_value", fakemicrosite)
+    @patch("openedx.core.djangoapps.site_configuration.helpers.get_value", fakemicrosite)
     def test_microsite_override_settings(self):
         self.assertEqual(get_processor_config()['MERCHANT_ID'], 'edx_test_override')
         self.assertEqual(get_processor_config()['SHARED_SECRET'], 'secret_override')
