@@ -101,6 +101,8 @@ EVENT_TRACKING_BACKENDS['tracking_logs']['OPTIONS']['backends'].update({
 
 BULK_EMAIL_DEFAULT_FROM_EMAIL = "test@test.org"
 
+LMS_ROOT_URL = "http://localhost:8000"
+
 # Forums are disabled in test.py to speed up unit tests, but we do not have
 # per-test control for lettuce acceptance tests.
 # If you are writing an acceptance test that needs the discussion service enabled,

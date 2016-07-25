@@ -20,7 +20,7 @@ def get_lms_link_for_about_page(course_key):
         # but redirects exist from www.edx.org to get to the Drupal course about page URL.
         about_base = settings.MKTG_URLS['ROOT']
     else:
-        about_base = settings.ENV_TOKENS.get('LMS_ROOT_URL')
+        about_base = settings.LMS_ROOT_URL
 
     return u"{about_base_url}/courses/{course_key}/about".format(
         about_base_url=about_base,

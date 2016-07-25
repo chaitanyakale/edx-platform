@@ -28,7 +28,7 @@ def validate_common_config():
     """
     Validates configurations common for all apps
     """
-    if not settings.ENV_TOKENS.get('LMS_ROOT_URL'):
+    if not settings.LMS_ROOT_URL:
         raise ValueError("'LMS_ROOT_URL' is not defined.")
 
 
