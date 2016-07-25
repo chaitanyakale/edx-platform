@@ -14,6 +14,9 @@ from common.test.acceptance.pages.studio.utils import (
     type_in_codemirror
 )
 
+import logging
+log = logging.getLogger('SettingsPage')
+
 
 @requirejs('js/factories/settings')
 class SettingsPage(CoursePage):
@@ -232,9 +235,28 @@ class SettingsPage(CoursePage):
         """
         Ensure the pre_requisite_course_options dropdown selector is displayed
         """
+        #Backbone Render code
+        logging.debug("\n\n\n\n\nHTML of wrapper-license '{}'".format(self.q(css='.wrapper-license').html))
+
+        # Course DropDown logs
+        logging.debug("HTML of dropdown '{}'".format(self.q(css='#pre-requisite-course').html))
+        logging.debug("Options of dropdown '{}'".format(self.q(css='#pre-requisite-course option').html))
+        logging.debug("options Selected of dropdown '{}'".format(self.q(css='#pre-requisite-course option').selected))
+
+        #single options logs
+        logging.debug("Value of dropdown '{}'".format(self.q(css='#pre-requisite-course').attrs('val')))
+        logging.debug("selected of dropdown '{}'\n\n\n\n\n".format(
+            self.q(css='#pre-requisite-course').attrs('selected')
+        ))
+
+        self.wait_for_element_presence('.wrapper-license', '1. Prerequisite course value is set.', 300)
         EmptyPromise(
             lambda: self.q(css="#pre-requisite-course").present,
             'Prerequisite course dropdown selector is displayed'
+        ).fulfill()
+        EmptyPromise(
+            lambda: self.q(css=".wrapper-license").present,
+            '2. Prerequisite course value is set.'
         ).fulfill()
 
     ################
