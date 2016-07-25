@@ -336,5 +336,5 @@ INSTALLED_APPS += ('openedx.core.djangoapps.api_admin',)
 OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
 
 ENV_TOKENS = {
-    'LMS_BASE': 'localhost:8000',
+    'LMS_ROOT_URL': 'https://localhost:8000',
 }

@@ -21,7 +21,7 @@ from monkey_patch import (
 import xmodule.x_module
 import lms_xblock.runtime
 
-from startup_configurations.validate_config import validate_marketing_site_config
+from startup_configurations.validate_config import validate_lms_config
 from openedx.core.djangoapps.theming.core import enable_theming
 from openedx.core.djangoapps.theming.helpers import is_comprehensive_theming_enabled
 
@@ -87,8 +87,8 @@ def run():
     xmodule.x_module.descriptor_global_handler_url = lms_xblock.runtime.handler_url
     xmodule.x_module.descriptor_global_local_resource_url = lms_xblock.runtime.local_resource_url
 
-    if settings.FEATURES.get('ENABLE_MKTG_SITE'):
-        validate_marketing_site_config()
+    # validate configurations on startup
+    validate_lms_config()
 
 
 def add_mimetypes():
